@@ -71,9 +71,9 @@ fn main() {
     let _pool_state = get_pool_state(&rpc_client, pool_state_address).unwrap();
 
     // Should be the encoded logs in string.
-    let logs = "QMbN6CYIceIpVWpkzMLdriyW1P//w/S8BkpgzdDUa8y8cOO1G2aLKAB8PqKDrvVUPsrJztowHzu3mIEMS7OoWtE/FdR0DAawqKiGh37bQE44CiPif7TUulNFjb3nOsr2BLiC001pm3lTIx3xit+ZK1UP7sQpcivJzD1k+kxmdm/WdTSuUBO8RqPJEzIDAAAAAAAAAAAAAAAAXtCyAAAAAAAAAAAAAAAAAI1AzhGTObB3AAAAAAAAAAAAPT5Q7SkAAAAAAAAAAAAAmcT//w==";
+    let logs = "MU9p1CAiHlS7JFhw/1ymzAvkfDdAS58qGSj2p6yMAqb2nabc2AeNhJ7065wBAAAAAAAAAAAAAABUiiBqAQAAAOOUjgEAAAAA";
     let decoded_event = base64::prelude::BASE64_STANDARD.decode(logs).unwrap();
     // Get events
-    let events = get_events(EventType::Swap, decoded_event).unwrap();
+    let events = get_events(EventType::IncreaseLiquidityEvent, decoded_event).unwrap();
     println!("{:?}", events);
 }
