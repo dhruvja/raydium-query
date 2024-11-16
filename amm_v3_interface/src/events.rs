@@ -55,7 +55,7 @@ pub const CREATE_PERSONAL_POSITION_EVENT_EVENT_DISCM: [u8; 8] = [
     154,
     206,
 ];
-#[derive(Clone, Debug, PartialEq, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, Debug, PartialEq, BorshSerialize)]
 pub struct CreatePersonalPositionEvent {
     pool_state: Pubkey,
     minter: Pubkey,
@@ -91,6 +91,36 @@ impl CreatePersonalPositionEventEvent {
             );
         }
         Ok(Self(CreatePersonalPositionEvent::deserialize(buf)?))
+    }
+}
+impl borsh::de::BorshDeserialize for CreatePersonalPositionEvent
+where
+    Pubkey: borsh::BorshDeserialize,
+    Pubkey: borsh::BorshDeserialize,
+    Pubkey: borsh::BorshDeserialize,
+    i32: borsh::BorshDeserialize,
+    i32: borsh::BorshDeserialize,
+    u128: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+{
+    fn deserialize_reader<R: borsh::maybestd::io::Read>(
+        reader: &mut R,
+    ) -> ::core::result::Result<Self, borsh::maybestd::io::Error> {
+        Ok(Self {
+            pool_state: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            minter: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            nft_owner: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            tick_lower_index: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            tick_upper_index: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            liquidity: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            deposit_amount0: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            deposit_amount1: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            deposit_amount0_transfer_fee: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+            deposit_amount1_transfer_fee: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+        })
     }
 }
 pub const INCREASE_LIQUIDITY_EVENT_EVENT_DISCM: [u8; 8] = [
@@ -169,7 +199,7 @@ pub const DECREASE_LIQUIDITY_EVENT_EVENT_DISCM: [u8; 8] = [
     85,
     56,
 ];
-#[derive(Clone, Debug, PartialEq, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, Debug, PartialEq, BorshSerialize)]
 pub struct DecreaseLiquidityEvent {
     position_nft_mint: Pubkey,
     liquidity: u128,
@@ -206,6 +236,34 @@ impl DecreaseLiquidityEventEvent {
         Ok(Self(DecreaseLiquidityEvent::deserialize(buf)?))
     }
 }
+impl borsh::de::BorshDeserialize for DecreaseLiquidityEvent
+where
+    Pubkey: borsh::BorshDeserialize,
+    u128: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    [u64; 3]: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+{
+    fn deserialize_reader<R: borsh::maybestd::io::Read>(
+        reader: &mut R,
+    ) -> ::core::result::Result<Self, borsh::maybestd::io::Error> {
+        Ok(Self {
+            position_nft_mint: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            liquidity: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            decrease_amount0: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            decrease_amount1: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            fee_amount0: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            fee_amount1: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            reward_amounts: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            transfer_fee0: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+            transfer_fee1: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+        })
+    }
+}
 pub const LIQUIDITY_CALCULATE_EVENT_EVENT_DISCM: [u8; 8] = [
     237,
     112,
@@ -216,7 +274,7 @@ pub const LIQUIDITY_CALCULATE_EVENT_EVENT_DISCM: [u8; 8] = [
     180,
     162,
 ];
-#[derive(Clone, Debug, PartialEq, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, Debug, PartialEq, BorshSerialize)]
 pub struct LiquidityCalculateEvent {
     pool_liquidity: u128,
     pool_sqrt_price_x64: u128,
@@ -251,6 +309,34 @@ impl LiquidityCalculateEventEvent {
             );
         }
         Ok(Self(LiquidityCalculateEvent::deserialize(buf)?))
+    }
+}
+impl borsh::de::BorshDeserialize for LiquidityCalculateEvent
+where
+    u128: borsh::BorshDeserialize,
+    u128: borsh::BorshDeserialize,
+    i32: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+{
+    fn deserialize_reader<R: borsh::maybestd::io::Read>(
+        reader: &mut R,
+    ) -> ::core::result::Result<Self, borsh::maybestd::io::Error> {
+        Ok(Self {
+            pool_liquidity: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            pool_sqrt_price_x64: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            pool_tick: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            calc_amount0: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            calc_amount1: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            trade_fee_owed0: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            trade_fee_owed1: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            transfer_fee0: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+            transfer_fee1: borsh::BorshDeserialize::deserialize_reader(reader).map_or(0, |val| val),
+        })
     }
 }
 pub const COLLECT_PERSONAL_FEE_EVENT_EVENT_DISCM: [u8; 8] = [
